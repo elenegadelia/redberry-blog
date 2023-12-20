@@ -1,6 +1,7 @@
 "use client";
 import Banner from "@/components/__molecules/Banner/Banner";
 import CategoryFilter from "@/components/__molecules/CategoryFilter/CategoryFilter";
+import SignInModal from "@/components/__molecules/SignInModal/SignInModal";
 import Header from "@/components/__organisms/Header/Header";
 import { fetchCategories } from "@/redux/features/categories-slice";
 import { RootState } from "@/redux/store";
@@ -21,6 +22,7 @@ export default function Home() {
       <Header />
       <Banner />
       <CategoryFilter categories={categories} />
+      <SignInModal />
     </div>
   );
 }
