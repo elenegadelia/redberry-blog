@@ -4,25 +4,39 @@ import CategoryFilter from "@/components/__molecules/CategoryFilter/CategoryFilt
 import SignInModal from "@/components/__molecules/SignInModal/SignInModal";
 import Header from "@/components/__organisms/Header/Header";
 import { fetchCategories } from "@/redux/features/categories-slice";
+import { fetchToken } from "@/redux/features/token-slice";
 import { RootState } from "@/redux/store";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function Home() {
+  const [isModalActive, setIsModalActive] = useState(false);
+  const dispatch = useDispatch();
+  const { token } = useSelector((state: RootState) => state.token);
+
+  const handleModal = (isActive: boolean) => {
+    setIsModalActive(isActive);
+  };
+
   const { loading, categories, errors } = useSelector(
     (state: RootState) => state.category
   );
-  const dispatch = useDispatch();
+
   useEffect(() => {
-    dispatch(fetchCategories());
+    if (localStorage.getItem("token") === "") {
+      dispatch(fetchToken());
+    } else {
+      dispatch(fetchCategories());
+    }
   }, []);
+  localStorage.setItem("token", token);
 
   return (
     <div>
-      <Header />
+      <Header handleModal={handleModal} />
       <Banner />
       <CategoryFilter categories={categories} />
-      <SignInModal />
+      {isModalActive && <SignInModal handleModal={handleModal} />}
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { RootState } from "@/redux/store";
 import axios from "axios";
 
 interface StateType {
@@ -22,10 +23,16 @@ const initialState: StateType = {
 
 export const fetchCategories = createAsyncThunk<Category[]>(
   "category/fetchCategories",
-  async () => {
+  async (_, { getState }) => {
     try {
+      const { token } = (getState() as RootState).token;
       const response = await axios.get<Category[]>(
-        "https://api.blog.redberryinternship.ge/api/categories"
+        "https://api.blog.redberryinternship.ge/api/categories",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       return response.data;
     } catch (error: any) {
