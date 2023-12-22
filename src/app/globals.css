@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url("https://free.bboxtype.com/embedfonts/?family=FiraGO:400");
+
 * {
   margin: 0;
   padding: 0;
@@ -10,4 +12,5 @@
 
 body {
   background-color: #f3f2fa;
+  font-family: "FiraGO";
 }

@@ -1,27 +1,27 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "@/redux/store";
 import axios from "axios";
-import { Category } from "@/types/services";
+import { Blog } from "@/types/services";
 
 interface StateType {
   loading: boolean;
-  categories: Category[];
+  blogs: Blog[];
   errors: string | undefined;
 }
 
 const initialState: StateType = {
   loading: false,
-  categories: [],
+  blogs: [],
   errors: "",
 };
 
-export const fetchCategories = createAsyncThunk<Category[]>(
-  "category/fetchCategories",
+export const fetchBlogs = createAsyncThunk(
+  "blog/fetchBlogs",
   async (_, { getState }) => {
     try {
       const { token } = (getState() as RootState).token;
-      const response = await axios.get<Category[]>(
-        "https://api.blog.redberryinternship.ge/api/categories",
+      const response = await axios.get(
+        "https://api.blog.redberryinternship.ge/api/blogs",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -35,27 +35,27 @@ export const fetchCategories = createAsyncThunk<Category[]>(
   }
 );
 
-export const categorySlice = createSlice({
+export const blogSlice = createSlice({
   name: "category",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchCategories.pending, (state) => {
+      .addCase(fetchBlogs.pending, (state) => {
         state.loading = true;
         state.errors = "";
       })
-      .addCase(fetchCategories.fulfilled, (state, action) => {
+      .addCase(fetchBlogs.fulfilled, (state, action) => {
         state.loading = false;
-        state.categories = action.payload.data;
+        state.blogs = action.payload.data;
         state.errors = "";
       })
-      .addCase(fetchCategories.rejected, (state, action) => {
+      .addCase(fetchBlogs.rejected, (state, action) => {
         state.loading = false;
-        state.categories = [];
+        state.blogs = [];
         state.errors = action.error.message;
       });
   },
 });
 
-export default categorySlice.reducer;
+export default blogSlice.reducer;
