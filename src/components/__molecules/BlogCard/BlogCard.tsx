@@ -39,7 +39,9 @@ const BlogCard = ({ blog }: BlogCardProps) => {
           />
         ))}
       </div>
-      <p className="text-base text-[#404049] mt-4">{blog.description}</p>
+      <p className="text-base text-[#404049] mt-4 overflow-hidden">
+        <span className="line-clamp-2">{blog.description}</span>
+      </p>
       <Link
         href={`blog/${blog.id}`}
         className="flex items-center gap-1 text-[#5D37F3] mt-4 text-sm font-medium"

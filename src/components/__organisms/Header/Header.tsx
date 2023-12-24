@@ -1,26 +1,42 @@
+"use client";
 import PrimaryButton from "@/components/__atoms/PrimaryButton/PrimaryButton";
 import Image from "next/image";
 import React, { useState } from "react";
 import RedberryLogo from "../../../../public/images/RedberryLogo.png";
+import Link from "next/link";
 
 interface HeaderProps {
   handleModal?: (isActive: boolean) => void;
+  isButtonActive: boolean;
 }
 
-const Header = ({ handleModal }: HeaderProps) => {
+const Header = ({ handleModal, isButtonActive }: HeaderProps) => {
   const [isAuth, setIsAuth] = useState(localStorage.getItem("isAuth"));
 
   return (
-    <header className="mx-auto flex justify-between items-center bg-white py-5 px-[76px]">
+    <header
+      className={`mx-auto flex  items-center bg-white py-5 px-[76px] ${
+        !isButtonActive ? "justify-center" : "justify-between"
+      }`}
+    >
       <div>
-        <Image src={RedberryLogo} alt="redberry logo" />
+        <Link href={"/"}>
+          <Image
+            width={150}
+            height={24}
+            src={RedberryLogo}
+            alt="redberry logo"
+          />
+        </Link>
       </div>
-      <PrimaryButton
-        onclick={handleModal}
-        styles={!isAuth ? "w-[93px] h-[40px]" : "w-[153px] h-[40px]"}
-        text={!isAuth ? "შესვლა" : "დაამატე ბლოგი"}
-        disabled={false}
-      />
+      {isButtonActive && (
+        <PrimaryButton
+          onclick={handleModal}
+          styles={!isAuth ? "w-[93px] h-[40px]" : "w-[153px] h-[40px]"}
+          text={!isAuth ? "შესვლა" : "დაამატე ბლოგი"}
+          disabled={false}
+        />
+      )}
     </header>
   );
 };

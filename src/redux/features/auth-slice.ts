@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { RootState } from "@/redux/store";
+import { API_BASE, AUTH_LOGIN } from "@/utils/constants/requests";
 
 interface AuthState {
   isAuth: boolean;
@@ -22,7 +23,7 @@ export const userLogin = createAsyncThunk(
     try {
       const { token } = (getState() as RootState).token;
       const response = await axios.post(
-        "https://api.blog.redberryinternship.ge/api/login",
+        AUTH_LOGIN,
         { email },
         {
           headers: {

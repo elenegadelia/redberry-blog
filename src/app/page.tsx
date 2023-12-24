@@ -36,7 +36,7 @@ export default function Home() {
 
   return (
     <div>
-      <Header handleModal={handleModal} />
+      <Header handleModal={handleModal} isButtonActive={true} />
       <Banner />
       <CategoryFilter categories={categories} />
       {isModalActive && <SignInModal handleModal={handleModal} />}

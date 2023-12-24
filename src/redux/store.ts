@@ -3,6 +3,7 @@ import authReducer from "./features/auth-slice";
 import categoriesSlice from "./features/categories-slice";
 import tokenSlice from "./features/token-slice";
 import blogSlice from "./features/blog-slice";
+import singleBlogSlice from "./features/singleBlog-slice";
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     category: categoriesSlice,
     token: tokenSlice,
     blog: blogSlice,
+    singleBlog: singleBlogSlice,
   },
 });
 

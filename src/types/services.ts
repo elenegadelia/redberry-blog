@@ -14,3 +14,14 @@ export interface Blog {
   author: string;
   categories: Category[];
 }
+
+export interface SingleBlog {
+  id: number;
+  title: string;
+  description: string;
+  image: string;
+  publish_date: string;
+  author: string;
+  email: string;
+  categories: Category[];
+}

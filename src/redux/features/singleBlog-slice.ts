@@ -1,27 +1,28 @@
+import { SingleBlog } from "@/types/services";
+import { FETCH_BLOG } from "@/utils/constants/requests";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { RootState } from "@/redux/store";
+import { RootState } from "../store";
 import axios from "axios";
-import { Blog } from "@/types/services";
-import { FETCH_BLOGS } from "@/utils/constants/requests";
 
 interface StateType {
   loading: boolean;
-  blogs: Blog[];
+  singleBlog: SingleBlog | null;
   errors: string | undefined;
 }
 
 const initialState: StateType = {
   loading: false,
-  blogs: [],
+  singleBlog: null,
   errors: "",
 };
 
-export const fetchBlogs = createAsyncThunk(
-  "blog/fetchBlogs",
-  async (_, { getState }) => {
+export const fetchBlogById = createAsyncThunk(
+  "blogById/fetchBlogById",
+  async (id: number, { getState }) => {
     try {
       const { token } = (getState() as RootState).token;
-      const response = await axios.get(FETCH_BLOGS, {
+      const url = FETCH_BLOG(id);
+      const response = await axios.get(url, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -33,27 +34,27 @@ export const fetchBlogs = createAsyncThunk(
   }
 );
 
-export const blogSlice = createSlice({
-  name: "category",
+export const singleBlogSlice = createSlice({
+  name: "singleBlog",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchBlogs.pending, (state) => {
+      .addCase(fetchBlogById.pending, (state) => {
         state.loading = true;
         state.errors = "";
       })
-      .addCase(fetchBlogs.fulfilled, (state, action) => {
+      .addCase(fetchBlogById.fulfilled, (state, action) => {
         state.loading = false;
-        state.blogs = action.payload.data;
+        state.singleBlog = action.payload;
         state.errors = "";
       })
-      .addCase(fetchBlogs.rejected, (state, action) => {
+      .addCase(fetchBlogById.rejected, (state, action) => {
         state.loading = false;
-        state.blogs = [];
+        state.singleBlog = null;
         state.errors = action.error.message;
       });
   },
 });
 
-export default blogSlice.reducer;
+export default singleBlogSlice.reducer;

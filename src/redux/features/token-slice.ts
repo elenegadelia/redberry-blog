@@ -1,3 +1,4 @@
+import { FETCH_TOKEN } from "@/utils/constants/requests";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
@@ -15,9 +16,7 @@ const initialState: StateType = {
 
 export const fetchToken = createAsyncThunk("token/fetchToken", async () => {
   try {
-    const response = await axios.get(
-      "https://api.blog.redberryinternship.ge/api/token"
-    );
+    const response = await axios.get(FETCH_TOKEN);
     return response.data;
   } catch (error: any) {
     throw Error(error.response.data.message);
@@ -37,10 +36,7 @@ export const tokenSlice = createSlice({
       .addCase(fetchToken.fulfilled, (state, action) => {
         state.loading = false;
         state.token = action.payload.token;
-
-        // Store the token in local storage
         localStorage.setItem("token", action.payload.token);
-
         state.errors = "";
       })
       .addCase(fetchToken.rejected, (state, action) => {
