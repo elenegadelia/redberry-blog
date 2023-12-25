@@ -14,6 +14,7 @@ interface signInModalProps {
 const SignInModal = ({ handleModal }: signInModalProps) => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
+  const [isError, setIsError] = useState(false);
   const [emailError, setEmailError] = useState("");
   const [isAuth, setIsAuth] = useState(localStorage.getItem("isAuth"));
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -23,11 +24,12 @@ const SignInModal = ({ handleModal }: signInModalProps) => {
 
     if (!email || !validateEmail(email)) {
       setEmailError("ელ-ფოსტა არ მოიძებნა");
+      setIsError(true);
       setIsSubmitting(false);
       return;
     }
 
-    dispatch(userLogin(email))
+    dispatch<any>(userLogin(email))
       .unwrap()
       .then(() => {
         setIsSubmitting(false);
@@ -62,6 +64,8 @@ const SignInModal = ({ handleModal }: signInModalProps) => {
               შესვლა
             </h4>
             <CustomInput
+              errors={isError}
+              label="ელ ფოსტა"
               onChange={(e) => setEmail(e.target.value)}
               value={email}
               width="432px"

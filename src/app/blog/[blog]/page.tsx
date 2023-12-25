@@ -19,7 +19,7 @@ const Blog = ({ params: { blog } }: Props) => {
   const { singleBlog } = useSelector((state: RootState) => state.singleBlog);
 
   useEffect(() => {
-    dispatch(fetchBlogById(blogId));
+    dispatch<any>(fetchBlogById(blogId));
   }, []);
 
   return (

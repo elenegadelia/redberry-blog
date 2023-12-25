@@ -7,7 +7,7 @@ import Header from "@/components/__organisms/Header/Header";
 import { fetchBlogs } from "@/redux/features/blog-slice";
 import { fetchCategories } from "@/redux/features/categories-slice";
 import { fetchToken } from "@/redux/features/token-slice";
-import { RootState } from "@/redux/store";
+import { AppDispatch, RootState } from "@/redux/store";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -26,10 +26,10 @@ export default function Home() {
 
   useEffect(() => {
     if (localStorage.getItem("token") === "") {
-      dispatch(fetchToken());
+      dispatch<any>(fetchToken());
     } else {
-      dispatch(fetchCategories());
-      dispatch(fetchBlogs());
+      dispatch<any>(fetchCategories());
+      dispatch<any>(fetchBlogs());
     }
   }, []);
   localStorage.setItem("token", token);
