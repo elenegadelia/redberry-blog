@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { RootState } from "@/redux/store";
-import { API_BASE, AUTH_LOGIN } from "@/utils/constants/requests";
+import { AUTH_LOGIN } from "@/utils/constants/requests";
 
 interface AuthState {
   isAuth: boolean;
@@ -44,9 +44,8 @@ export const auth = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    logIn: (state, action: PayloadAction<string>) => {
+    logIn: (state) => {
       state.isAuth = true;
-      state.email = action.payload;
     },
     resetAuthState: (state) => {
       state.isAuth = false;

@@ -1,10 +1,21 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-const initialState = {
+interface stateType {
+  title: string;
+  description: string;
+  imageName: string;
+  image: File | undefined;
+  author: string;
+  publish_date: string;
+  categories: number[];
+  email: string;
+}
+
+const initialState: stateType = {
   title: "",
   description: "",
   imageName: "",
-  imageUri: "",
+  image: undefined,
   author: "",
   publish_date: "",
   categories: [],
@@ -24,8 +35,8 @@ export const createBlogSlice = createSlice({
     setBlogImageName: (state, action: PayloadAction<string>) => {
       state.imageName = action.payload;
     },
-    setBlogImageUri: (state, action: PayloadAction<string>) => {
-      state.imageUri = action.payload;
+    setBlogImage: (state, action: PayloadAction<File>) => {
+      state.image = action.payload;
     },
     setBlogAuthor: (state, action: PayloadAction<string>) => {
       state.author = action.payload;
@@ -33,11 +44,21 @@ export const createBlogSlice = createSlice({
     setBlogPublishDate: (state, action: PayloadAction<string>) => {
       state.publish_date = action.payload;
     },
-    setBlogCategories: (state, action: PayloadAction<[]>) => {
-      state.categories = action.payload;
+    setBlogCategories: (state, action: PayloadAction<number>) => {
+      state.categories.push(action.payload);
     },
     setBlogEmail: (state, action: PayloadAction<string>) => {
-      state.description = action.payload;
+      state.email = action.payload;
+    },
+    resetBlogState: (state) => {
+      (state.title = ""),
+        (state.description = ""),
+        (state.imageName = ""),
+        (state.image = undefined),
+        (state.author = ""),
+        (state.publish_date = ""),
+        (state.categories = []),
+        (state.email = "");
     },
   },
 });
@@ -46,10 +67,11 @@ export const {
   setBlogTitle,
   setBlogDescription,
   setBlogImageName,
-  setBlogImageUri,
   setBlogAuthor,
   setBlogPublishDate,
   setBlogCategories,
+  setBlogImage,
   setBlogEmail,
+  resetBlogState,
 } = createBlogSlice.actions;
 export default createBlogSlice.reducer;

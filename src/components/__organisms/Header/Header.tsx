@@ -4,6 +4,9 @@ import Image from "next/image";
 import React, { useState } from "react";
 import RedberryLogo from "../../../../public/images/RedberryLogo.png";
 import Link from "next/link";
+import PrimaryAnchor from "@/components/__atoms/PrimaryAnchor/PrimaryAnchor";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 interface HeaderProps {
   handleModal?: (isActive: boolean) => void;
@@ -11,7 +14,7 @@ interface HeaderProps {
 }
 
 const Header = ({ handleModal, isButtonActive }: HeaderProps) => {
-  const [isAuth, setIsAuth] = useState(localStorage.getItem("isAuth"));
+  const isAuth = useSelector((state: RootState) => state.auth.isAuth);
 
   return (
     <header
@@ -29,12 +32,19 @@ const Header = ({ handleModal, isButtonActive }: HeaderProps) => {
           />
         </Link>
       </div>
-      {isButtonActive && (
+      {isButtonActive && !isAuth && (
         <PrimaryButton
-          onclick={handleModal}
-          styles={!isAuth ? "w-[93px] h-[40px]" : "w-[153px] h-[40px]"}
-          text={!isAuth ? "შესვლა" : "დაამატე ბლოგი"}
+          onclick={() => handleModal?.(true)}
+          styles={"w-[93px] h-[40px]"}
+          text={"შესვლა"}
           disabled={false}
+        />
+      )}
+      {isButtonActive && isAuth && (
+        <PrimaryAnchor
+          text="დაამატე ბლოგი"
+          path="/create-blog"
+          styles="w-[153px] h-[40px] justify-center"
         />
       )}
     </header>

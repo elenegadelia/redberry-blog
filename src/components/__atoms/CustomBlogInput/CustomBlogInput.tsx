@@ -50,12 +50,13 @@ const CustomBlogInput = ({
               {item}
             </li>
           ))}
-        {name === "title" &&
-          titleValidationRules.map((item, index) => (
-            <li key={index} className="text-[#85858D] text-xs list-disc ml-4">
-              {item}
-            </li>
-          ))}
+        {name === "title" || name === "description"
+          ? titleValidationRules.map((item, index) => (
+              <li key={index} className="text-[#85858D] text-xs list-disc ml-4">
+                {item}
+              </li>
+            ))
+          : null}
       </ul>
     </div>
   );

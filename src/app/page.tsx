@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 export default function Home() {
   const [isModalActive, setIsModalActive] = useState(false);
+  const [isAuth, setIsAuth] = useState(false);
   const dispatch = useDispatch();
   const { token } = useSelector((state: RootState) => state.token);
 
@@ -39,7 +40,12 @@ export default function Home() {
       <Header handleModal={handleModal} isButtonActive={true} />
       <Banner />
       <CategoryFilter categories={categories} />
-      {isModalActive && <SignInModal handleModal={handleModal} />}
+      {isModalActive && (
+        <SignInModal
+          handleModal={handleModal}
+          setIsModalActive={setIsModalActive}
+        />
+      )}
       <BlogList />
     </div>
   );

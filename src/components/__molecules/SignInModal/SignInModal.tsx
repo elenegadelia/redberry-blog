@@ -2,21 +2,27 @@ import CustomInput from "@/components/__atoms/CustomInput/CustomInput";
 import PrimaryButton from "@/components/__atoms/PrimaryButton/PrimaryButton";
 import { userLogin, logIn } from "@/redux/features/auth-slice";
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ErrorIcon from "../../../../public/icons/ErrorIcon";
 import CloseIcon from "../../../../public/icons/CloseIcon";
 import SuccessIcon from "../../../../public/icons/SuccessIcon";
+import { RootState } from "@/redux/store";
+import { useRouter } from "next/navigation";
 
 interface signInModalProps {
+  setIsModalActive: (arg0: boolean) => void;
   handleModal: (isActive: boolean) => void;
 }
 
-const SignInModal = ({ handleModal }: signInModalProps) => {
+const SignInModal = ({ handleModal, setIsModalActive }: signInModalProps) => {
+  const router = useRouter();
   const dispatch = useDispatch();
+
+  const isAuth = useSelector((state: RootState) => state.auth.isAuth);
+
   const [email, setEmail] = useState("");
   const [isError, setIsError] = useState(false);
   const [emailError, setEmailError] = useState("");
-  const [isAuth, setIsAuth] = useState(localStorage.getItem("isAuth"));
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleLogin = () => {
@@ -34,13 +40,10 @@ const SignInModal = ({ handleModal }: signInModalProps) => {
       .then(() => {
         setIsSubmitting(false);
         setEmailError("");
-
-        dispatch(logIn(email));
-
-        setIsAuth(true);
+        dispatch(logIn());
         localStorage.setItem("isAuth", "true");
       })
-      .catch((error) => {
+      .catch((error: any) => {
         setIsSubmitting(false);
         console.error("Login failed:", error);
       });
@@ -49,6 +52,11 @@ const SignInModal = ({ handleModal }: signInModalProps) => {
     const emailPattern = /@redberry\.ge$/i;
     return emailPattern.test(email);
   };
+
+  const handleOkayButton = () => {
+    setIsModalActive(false);
+  };
+
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
       <div className="w-[480px] h-[300px] bg-white rounded-xl p-4 relative">
@@ -93,7 +101,12 @@ const SignInModal = ({ handleModal }: signInModalProps) => {
               <p className="text-primaryBlack text-xl font-bold mt-4 mt">
                 წარმატებული ავტორიზაცია
               </p>
-              <PrimaryButton styles="w-[432px] h-[40px] mt-12" text="კარგი" />
+              <PrimaryButton
+                onclick={handleOkayButton}
+                styles="w-[432px] h-[40px] mt-12"
+                text="კარგი"
+                disabled={false}
+              />
             </div>
           </>
         )}

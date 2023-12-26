@@ -9,6 +9,7 @@ import tokenSlice from "./features/token-slice";
 import blogSlice from "./features/blog-slice";
 import singleBlogSlice from "./features/singleBlog-slice";
 import createBlogSlice from "./features/createBlog-slice";
+import categoryFilterSlice from "./features/categoryFilter-slice";
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -17,12 +18,13 @@ const rootReducer = combineReducers({
   blog: blogSlice,
   singleBlog: singleBlogSlice,
   createBlog: createBlogSlice,
+  categoryFilter: categoryFilterSlice,
 });
 
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["createBlog"],
+  whitelist: ["createBlog", "auth", "categoryFilter"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

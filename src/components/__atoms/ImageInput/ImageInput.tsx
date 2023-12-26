@@ -5,8 +5,8 @@ import ImageIcon from "../../../../public/icons/ImageIcon";
 import CloseIcon from "../../../../public/icons/CloseIcon";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  setBlogImage,
   setBlogImageName,
-  setBlogImageUri,
 } from "@/redux/features/createBlog-slice";
 import { RootState } from "@/redux/store";
 
@@ -16,8 +16,6 @@ const ImageInput = () => {
     (state: RootState) => state.createBlog.imageName
   );
 
-  const blogReducer = useSelector((state: RootState) => state.createBlog);
-
   const handleImageDelete = () => {
     dispatch(setBlogImageName(""));
   };
@@ -26,15 +24,10 @@ const ImageInput = () => {
     const selectedImage = event.target.files?.[0];
     if (selectedImage) {
       dispatch(setBlogImageName(selectedImage.name));
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const base64String = reader.result as string;
-        dispatch(setBlogImageUri(base64String));
-      };
-      reader.readAsDataURL(selectedImage);
+      dispatch(setBlogImage(selectedImage));
     }
   };
-  console.log(blogReducer);
+
   return (
     <div className="mt-10">
       <p className="text-primaryBlack text-sm font-medium">ატვირთეთ ფოტო</p>
