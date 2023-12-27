@@ -14,15 +14,31 @@ import {
 import { RootState } from "@/redux/store";
 import { CREATE_BLOG } from "@/utils/constants/requests";
 import axios from "axios";
-import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-const CreateBlogForm = () => {
-  const router = useRouter();
+interface createBlogFormProps {
+  setIsModalActive: (isActive: boolean) => void;
+}
+
+const CreateBlogForm = ({ setIsModalActive }: createBlogFormProps) => {
   const dispatch = useDispatch();
 
+  const [isAllVallsPassed, setIsAllVallsPassed] = useState(false);
+  const emailPattern = /@redberry\.ge$/i;
   const blogValues = useSelector((state: RootState) => state.createBlog);
+  useEffect(() => {
+    const isValid =
+      blogValues.title.length >= 2 &&
+      blogValues.description.length >= 2 &&
+      blogValues.author.length > 4 &&
+      blogValues.author.split(" ").length >= 2 &&
+      (blogValues.email === "" || emailPattern.test(blogValues.email)) &&
+      blogValues.categories.length >= 1 &&
+      blogValues.publish_date !== "";
+    setIsAllVallsPassed(isValid);
+  }, [blogValues]);
+
   const createBlog = async () => {
     const formData = new FormData();
     formData.append("title", blogValues.title);
@@ -37,8 +53,6 @@ const CreateBlogForm = () => {
     formData.append("publish_date", blogValues.publish_date);
     formData.append("categories", JSON.stringify(blogValues.categories));
     formData.append("email", blogValues.email);
-    dispatch<any>(resetBlogState());
-    router.replace("/");
     try {
       const token = localStorage.getItem("token");
       const response = await axios.post(CREATE_BLOG, formData, {
@@ -48,7 +62,7 @@ const CreateBlogForm = () => {
       });
       if (response.status === 204) {
         dispatch<any>(resetBlogState());
-        router.replace("/");
+        setIsModalActive(true);
       }
     } catch (error) {
       console.error("error", error);
@@ -122,7 +136,7 @@ const CreateBlogForm = () => {
       </div>
       <PrimaryButton
         onclick={createBlog}
-        disabled={false}
+        disabled={!isAllVallsPassed}
         text="შესვლა"
         styles="w-[432px] h-[40px] mt-[24px]"
       />

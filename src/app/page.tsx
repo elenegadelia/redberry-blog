@@ -13,7 +13,6 @@ import { useDispatch, useSelector } from "react-redux";
 
 export default function Home() {
   const [isModalActive, setIsModalActive] = useState(false);
-  const [isAuth, setIsAuth] = useState(false);
   const dispatch = useDispatch();
   const { token } = useSelector((state: RootState) => state.token);
 

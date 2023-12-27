@@ -4,6 +4,7 @@ import { setBlogCategories } from "@/redux/features/createBlog-slice";
 import { RootState } from "@/redux/store";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import CategoryTitle from "../CategoryTitle/CategoryTitle";
 
 const CustomDropdown = () => {
   const dispatch = useDispatch();
@@ -15,6 +16,12 @@ const CustomDropdown = () => {
     (state: RootState) => state.createBlog.categories
   );
   const { categories } = useSelector((state: RootState) => state.category);
+  const createBlogCategories = useSelector(
+    (state: RootState) => state.createBlog.categories
+  );
+  const chosenCategories = categories.filter((category) =>
+    createBlogCategories.includes(category.id)
+  );
   const handleOptionSelect = (selectedOption: number) => {
     dispatch(setBlogCategories(selectedOption));
     setIsOpen(false);
@@ -23,13 +30,24 @@ const CustomDropdown = () => {
     (category) => !addedCategories.includes(category.id)
   );
   return (
-    <div className="relative">
+    <div className="flex flex-col">
       <label className="text-primaryBlack font-medium text-sm">კატეგორია</label>
       <div
         className="flex items-center justify-between bg-[#FCFCFD] border border-solid border-[#E4E3EB] rounded-xl w-[288px] h-[44px] px-4 cursor-pointer select-none mt-2"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <span className="text-[#85858D]">შეიყვანეთ სათაური</span>
+        {chosenCategories.length > 0 ? (
+          chosenCategories.map((category, index) => (
+            <CategoryTitle
+              key={index}
+              text={category.title}
+              textColor={category.text_color}
+              backgroundColor={category.background_color}
+            />
+          ))
+        ) : (
+          <span className="text-[#85858D]">შეიყვანეთ სათაური</span>
+        )}
         <span>&#9660;</span>
       </div>
       {isOpen && (
