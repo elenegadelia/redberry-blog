@@ -26,3 +26,20 @@ body {
   height: 100%;
   object-fit: cover;
 }
+
+.input-date-stock {
+  background: #fcfcfd url("../../public/icons/calendar.png");
+  background-size: 20px;
+  background-repeat: no-repeat;
+  background-position: 93%;
+}
+.input-date-success {
+  background: #f8fff8 url("../../public/icons/calendar.png");
+  background-size: 20px;
+  background-repeat: no-repeat;
+  background-position: 93%;
+}
+
+input::-webkit-calendar-picker-indicator {
+  opacity: 0;
+}

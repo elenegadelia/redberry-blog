@@ -10,7 +10,7 @@ interface StateType {
 
 const initialState: StateType = {
   loading: false,
-  token: localStorage.getItem("token") || "",
+  token: "",
   errors: "",
 };
 

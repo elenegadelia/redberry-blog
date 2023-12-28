@@ -15,8 +15,7 @@ interface sliderProps {
 
 const Slider = ({ blogCategories }: sliderProps) => {
   const blogs = useSelector((state: RootState) => state.blog.blogs);
-  const [isBeginning, setIsBeginning] = useState(true);
-  const [isEnd, setIsEnd] = useState(false);
+  const [sliderIndex, setSliderIndex] = useState(0);
 
   const filteredBlogs = blogs.filter((blog) =>
     blog.categories.some((category) =>
@@ -25,11 +24,12 @@ const Slider = ({ blogCategories }: sliderProps) => {
       )
     )
   );
+  const sliderCount = filteredBlogs.length;
+  console.log(sliderIndex);
   return (
-    <div className="relative px-[76px] mt-[98px]">
+    <div className="relative px-[76px] mt-[98px] mb-14">
       <Swiper
-        onReachBeginning={() => setIsBeginning(false)}
-        onReachEnd={() => setIsEnd(true)}
+        onRealIndexChange={(index) => setSliderIndex(index.activeIndex)}
         slidesPerView={3}
         modules={[Navigation]}
         className="mySwiper"
@@ -38,7 +38,7 @@ const Slider = ({ blogCategories }: sliderProps) => {
         <h3 className="text-primaryBlack text-[32px] font-bold absolute top-0 left-0">
           მსგავსი სტატიები
         </h3>
-        <SliderButtons isBeginning={isBeginning} isEnd={isEnd} />
+        <SliderButtons sliderIndex={sliderIndex} sliderCount={sliderCount} />
         {filteredBlogs.map((blog, index) => (
           <SwiperSlide className="mt-20" key={index}>
             <BlogCard blog={blog} />

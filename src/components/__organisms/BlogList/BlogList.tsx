@@ -17,7 +17,7 @@ const BlogList = () => {
       )
     : blogs;
   return (
-    <div className="px-[76px]">
+    <div className="px-[76px] mb-14">
       <div className="mt-16 grid grid-cols-3 gap-8">
         {filteredBlogs.map((blog) => {
           return <BlogCard blog={blog} />;

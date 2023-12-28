@@ -1,23 +1,35 @@
 import React from "react";
+import DeleteIcon from "../../../../public/icons/DeleteIcon";
 
-interface categoryDropdownsProps {
+interface CategoryDropdownProps {
   text: string;
   backgroundColor: string;
   textColor: string;
+  categoryId: number;
+  removeCategory: (id: number) => void;
 }
 
-const CategoryDropdowns = ({
+const CategoryDropdowns: React.FC<CategoryDropdownProps> = ({
   text,
   backgroundColor,
   textColor,
-}: categoryDropdownsProps) => {
+  categoryId,
+  removeCategory,
+}) => {
   return (
-    <span
-      style={{ backgroundColor: backgroundColor, color: textColor }}
-      className={`rounded-[30px] px-[10px] py-[6px] text-xs`}
+    <div
+      className="flex items-center relative rounded-[30px] px-[12px] py-[8px] text-xs z-50 overflow-hidden"
+      style={{
+        backgroundColor: backgroundColor,
+        color: textColor,
+        maxWidth: "150px",
+      }}
     >
-      {text}
-    </span>
+      <span className="truncate">{text}</span>
+      <div onClick={() => removeCategory(categoryId)}>
+        <DeleteIcon />
+      </div>
+    </div>
   );
 };
 

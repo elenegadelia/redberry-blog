@@ -21,12 +21,12 @@ export const fetchCategories = createAsyncThunk<Category[]>(
   async (_, { getState }) => {
     try {
       const { token } = (getState() as RootState).token;
-      const response = await axios.get<Category[]>(FETCH_CATEGORIES, {
+      const response = await axios.get<{ data: Category[] }>(FETCH_CATEGORIES, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      return response.data;
+      return response.data.data;
     } catch (error: any) {
       throw Error(error.response.data.message);
     }
@@ -45,7 +45,7 @@ export const categorySlice = createSlice({
       })
       .addCase(fetchCategories.fulfilled, (state, action) => {
         state.loading = false;
-        state.categories = action.payload.data;
+        state.categories = action.payload;
         state.errors = "";
       })
       .addCase(fetchCategories.rejected, (state, action) => {

@@ -1,6 +1,8 @@
 "use client";
 import CustomBlogInput from "@/components/__atoms/CustomBlogInput/CustomBlogInput";
 import CustomDropdown from "@/components/__atoms/CustomDropdown/CustomDropdown";
+import CustomEmailInput from "@/components/__atoms/CustomEmailInput.tsx/CustomEmailInput";
+import DateInput from "@/components/__atoms/DateInput/DateInput";
 import ImageInput from "@/components/__atoms/ImageInput/ImageInput";
 import PrimaryButton from "@/components/__atoms/PrimaryButton/PrimaryButton";
 import {
@@ -110,7 +112,7 @@ const CreateBlogForm = ({ setIsModalActive }: createBlogFormProps) => {
         />
       </div>
       <div className="flex justify-between item-center mt-6">
-        <CustomBlogInput
+        <DateInput
           name="publish_date"
           value={blogValues.publish_date}
           onChange={(e) => dispatch(setBlogPublishDate(e.target.value))}
@@ -118,28 +120,29 @@ const CreateBlogForm = ({ setIsModalActive }: createBlogFormProps) => {
           width="288px"
           label="გამოქვეყნების თარიღი *"
           placeholder="12/12/2023"
-          errors={false}
         />
         <CustomDropdown />
       </div>
       <div className="mt-[24px]">
-        <CustomBlogInput
+        <CustomEmailInput
           name="email"
           value={blogValues.email}
           onChange={(e) => dispatch(setBlogEmail(e.target.value))}
           height="44px"
           width="288px"
-          label="ელ-ფოსტა *"
+          label="ელ-ფოსტა"
           placeholder="Example@redberry.ge"
           errors={false}
         />
       </div>
-      <PrimaryButton
-        onclick={createBlog}
-        disabled={!isAllVallsPassed}
-        text="შესვლა"
-        styles="w-[432px] h-[40px] mt-[24px]"
-      />
+      <div className="flex justify-end mt-10 mb-24">
+        <PrimaryButton
+          onclick={createBlog}
+          disabled={!isAllVallsPassed}
+          text="გამოქვეყნება"
+          styles="w-[288px] h-[40px]"
+        />
+      </div>
     </div>
   );
 };

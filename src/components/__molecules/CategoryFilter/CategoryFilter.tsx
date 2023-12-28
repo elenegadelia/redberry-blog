@@ -32,7 +32,6 @@ const CategoryFilter = ({ categories }: categoryFilterProps) => {
       dispatch(removeFilteredCategory(id));
     }
   };
-  console.log(filters);
 
   return (
     <div className="flex flex-wrap items-center justify-center max-w-[684px] mx-auto mt-16 gap-6">

@@ -4,19 +4,22 @@ import SliderArrowNext from "../../../../public/icons/SliderArrowNext";
 import SliderArrowsPrev from "../../../../public/icons/SliderArrowsPrev";
 
 interface sliderButtonProps {
-  isEnd: boolean;
-  isBeginning: boolean;
+  sliderIndex: number;
+  sliderCount: number;
 }
 
-const SliderButtons = ({ isEnd, isBeginning }: sliderButtonProps) => {
+const SliderButtons = ({ sliderIndex, sliderCount }: sliderButtonProps) => {
   const swiper = useSwiper();
+  const leftActive = sliderIndex > 0;
+  const rightActive = sliderIndex < sliderCount - 3;
+
   return (
     <div className="flex gap-6 absolute z-50 top-0 right-0">
       <button onClick={() => swiper.slidePrev()}>
-        <SliderArrowsPrev isBeginning={isBeginning} />
+        <SliderArrowsPrev isBeginning={leftActive} />
       </button>
       <button onClick={() => swiper.slideNext()}>
-        <SliderArrowNext isEnd={isEnd} />
+        <SliderArrowNext isEnd={rightActive} />
       </button>
     </div>
   );

@@ -50,6 +50,10 @@ export const createBlogSlice = createSlice({
     setBlogEmail: (state, action: PayloadAction<string>) => {
       state.email = action.payload;
     },
+    deleteCategory: (state, action: PayloadAction<number>) => {
+      const categoryId = action.payload;
+      state.categories = state.categories.filter((id) => id !== categoryId);
+    },
     resetBlogState: (state) => {
       (state.title = ""),
         (state.description = ""),
@@ -73,5 +77,6 @@ export const {
   setBlogImage,
   setBlogEmail,
   resetBlogState,
+  deleteCategory,
 } = createBlogSlice.actions;
 export default createBlogSlice.reducer;
