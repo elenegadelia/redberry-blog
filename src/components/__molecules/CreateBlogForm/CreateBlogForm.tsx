@@ -5,7 +5,7 @@ import CustomEmailInput from "@/components/__atoms/CustomEmailInput.tsx/CustomEm
 import DateInput from "@/components/__atoms/DateInput/DateInput";
 import ImageInput from "@/components/__atoms/ImageInput/ImageInput";
 import PrimaryButton from "@/components/__atoms/PrimaryButton/PrimaryButton";
-import RangeInput from "@/components/__atoms/CustomTextarea/CustomTextarea";
+import CustomTextarea from "@/components/__atoms/CustomTextarea/CustomTextarea";
 import {
   resetBlogState,
   setBlogAuthor,
@@ -104,7 +104,7 @@ const CreateBlogForm = ({ setIsModalActive }: createBlogFormProps) => {
         />
       </div>
       <div className="mt-6">
-        <RangeInput
+        <CustomTextarea
           name="description"
           value={blogValues.description}
           onChange={(e) => dispatch(setBlogDescription(e.target.value))}
