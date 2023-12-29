@@ -5,6 +5,7 @@ import CustomEmailInput from "@/components/__atoms/CustomEmailInput.tsx/CustomEm
 import DateInput from "@/components/__atoms/DateInput/DateInput";
 import ImageInput from "@/components/__atoms/ImageInput/ImageInput";
 import PrimaryButton from "@/components/__atoms/PrimaryButton/PrimaryButton";
+import RangeInput from "@/components/__atoms/CustomTextarea/CustomTextarea";
 import {
   resetBlogState,
   setBlogAuthor,
@@ -25,12 +26,13 @@ interface createBlogFormProps {
 
 const CreateBlogForm = ({ setIsModalActive }: createBlogFormProps) => {
   const dispatch = useDispatch();
-
+  const [isLoading, setIsLoading] = useState(false);
   const [isAllVallsPassed, setIsAllVallsPassed] = useState(false);
   const emailPattern = /@redberry\.ge$/i;
   const blogValues = useSelector((state: RootState) => state.createBlog);
   useEffect(() => {
     const isValid =
+      blogValues.image !== undefined &&
       blogValues.title.length >= 2 &&
       blogValues.description.length >= 2 &&
       blogValues.author.length > 4 &&
@@ -42,6 +44,7 @@ const CreateBlogForm = ({ setIsModalActive }: createBlogFormProps) => {
   }, [blogValues]);
 
   const createBlog = async () => {
+    setIsLoading(true);
     const formData = new FormData();
     formData.append("title", blogValues.title);
     formData.append("description", blogValues.description);
@@ -62,6 +65,7 @@ const CreateBlogForm = ({ setIsModalActive }: createBlogFormProps) => {
           Authorization: `Bearer ${token}`,
         },
       });
+      setIsLoading(false);
       if (response.status === 204) {
         dispatch<any>(resetBlogState());
         setIsModalActive(true);
@@ -100,7 +104,7 @@ const CreateBlogForm = ({ setIsModalActive }: createBlogFormProps) => {
         />
       </div>
       <div className="mt-6">
-        <CustomBlogInput
+        <RangeInput
           name="description"
           value={blogValues.description}
           onChange={(e) => dispatch(setBlogDescription(e.target.value))}
@@ -138,7 +142,7 @@ const CreateBlogForm = ({ setIsModalActive }: createBlogFormProps) => {
       <div className="flex justify-end mt-10 mb-24">
         <PrimaryButton
           onclick={createBlog}
-          disabled={!isAllVallsPassed}
+          disabled={!isAllVallsPassed || isLoading}
           text="გამოქვეყნება"
           styles="w-[288px] h-[40px]"
         />

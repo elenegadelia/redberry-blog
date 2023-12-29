@@ -31,7 +31,7 @@ const CustomBlogInput = ({
     },
     {
       rule: "მინიმუმ ორი სიტყვა",
-      passed: value.split(" ").length >= 2,
+      passed: value.split(" ").length >= 2 && value.split(" ")[1].length > 0,
     },
     {
       rule: "მხოლოდ ქართული სიმბოლოები",
